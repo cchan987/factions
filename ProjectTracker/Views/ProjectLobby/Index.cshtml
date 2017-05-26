@@ -1,0 +1,15 @@
+@if (User.Identity.IsAuthenticated)
+{
+
+<p>user is authenticated as @User.Identity.Name</p>
+
+  <p>  @ViewBag.Projects.Id </p>
+
+}
+
+else{
+    ViewBag.title = "Lobby";
+    <p>You must login to view project lobby</p>
+}
+<h2>Lobby</h2>
+

@@ -22,5 +22,10 @@ namespace ProjectTracker.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<UserStats> UserStats { get; set; }
+        public DbSet<UserParticipation> UserParticipation { get; set; }
+        public DbSet<ProjectChange> ProjectChange { get; set; }
+        public DbSet<Project> Project { get; set; }
     }
 }
