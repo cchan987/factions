@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using ProjectTracker.Data;
 
-namespace ProjectTracker.Data.Migrations
+namespace ProjectTracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170530142435_change proj name to string")]
+    partial class changeprojnametostring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -182,7 +183,9 @@ namespace ProjectTracker.Data.Migrations
 
                     b.Property<int>("CountParticipants");
 
-                    b.Property<int>("WhoseTurn");
+                    b.Property<string>("Name");
+
+                    b.Property<string>("WhoseTurn");
 
                     b.Property<bool>("isAcceptingParticipants");
 
@@ -201,9 +204,9 @@ namespace ProjectTracker.Data.Migrations
                     b.Property<string>("Change")
                         .HasMaxLength(100);
 
-                    b.Property<int>("ChangeBy");
+                    b.Property<string>("ChangeBy");
 
-                    b.Property<int>("ChangeConcerns");
+                    b.Property<string>("ChangeConcerns");
 
                     b.Property<int>("ProjectId");
 
@@ -214,7 +217,7 @@ namespace ProjectTracker.Data.Migrations
 
             modelBuilder.Entity("ProjectTracker.Models.UserParticipation", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ProjectId");
@@ -226,7 +229,7 @@ namespace ProjectTracker.Data.Migrations
 
             modelBuilder.Entity("ProjectTracker.Models.UserStats", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("DataA");

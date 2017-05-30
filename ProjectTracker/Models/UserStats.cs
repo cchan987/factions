@@ -1,5 +1,4 @@
-﻿
-
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectTracker.Models
@@ -7,7 +6,7 @@ namespace ProjectTracker.Models
     public class UserStats
     {
         [Key]
-        public int UserId { get; set; }
+        public String UserId { get; set; }
         public int DataA { get; set; }
         public int DataB { get; set; }
         public int DataC { get; set; }

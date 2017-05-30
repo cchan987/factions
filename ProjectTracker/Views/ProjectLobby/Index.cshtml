@@ -1,15 +1,42 @@
 @if (User.Identity.IsAuthenticated)
 {
+    <h1>You are logged in as @User.Identity.Name</h1>
 
-<p>user is authenticated as @User.Identity.Name</p>
+    <p><a asp-action="JoinProject" asp-route-ProjId="@ViewBag.ParticipatingIn.Id">You are participating in: @ViewBag.ParticipatingIn.Name</a></p>
 
-  <p>  @ViewBag.Projects.Id </p>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>Projects in Progress</h2>
+                @foreach (var project in ViewBag.inProgress)
+                {
+                    <p>@project.Name</p>
+                    <p>______</p>
+                }
+            </div>
+
+            <div class="col-xs-6">
+                <h2>Projects Accepting Participants</h2>
+                @foreach (var project in ViewBag.AcceptingParticipants)
+                {
+                    <p><a asp-action="JoinProject" asp-route-ProjId="@project.Id">@project.Name</a></p>
+                    //Html.ActionLink(@pr)
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <a class="btn btn-primary" asp-action="CreateProject">Create Project</a>
+            </div>
+        </div>
+    </div>
 
 }
-
-else{
+else
+{
     ViewBag.title = "Lobby";
-    <p>You must login to view project lobby</p>
+    <h1> You must login to view project lobby</h1>
 }
-<h2>Lobby</h2>
+
 

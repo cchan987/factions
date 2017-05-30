@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using ProjectTracker.Services;
+using System.Security.Claims;
+using System;
+using ProjectTracker.Models;
 
 namespace ProjectTracker.Controllers
 {
@@ -17,13 +19,51 @@ namespace ProjectTracker.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                
                 ViewBag.title = User.Identity.Name;
-                ViewBag.projects = _ProjectData.Get(1);
-                //Get in progress projects
-                //Get accepting participants projects
+                ViewBag.inProgress = _ProjectData.GetInProgress();
+                ViewBag.AcceptingParticipants = _ProjectData.GetAcceptingParticipants();
+                ViewBag.ParticipatingIn = _ProjectData.ParticipatingIn(User.Identity.Name);
+                //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); Get userId             
                 //return View({inProgress: .... , acceptingParticipants: ....});
             }
             return View();
         }
+
+        [HttpGet]
+        public IActionResult CreateProject()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateProject()
+        {
+
+        }
+
+        public IActionResult JoinProject(int ProjId)
+        {
+            Project toBeJoined = _ProjectData.Get(ProjId);
+            if (toBeJoined == null)
+            {
+                return View("ErrorNoProject");
+            }
+
+            else if (!toBeJoined.isAcceptingParticipants)
+            {
+                UserParticipation inProject = _ProjectData.GetParticipation(User.Identity.Name);
+                if (inProject.ProjectId == ProjId)
+                {
+                    return RedirectToAction("Join", "ProjectController", new {Id = ProjId});
+                }
+            }
+            else if (toBeJoined.isAcceptingParticipants)
+            {
+                return RedirectToAction("Join", "ProjectController", new { Id = ProjId });
+            }
+            return View("ErrorNoAccess");
+        }
+            
     }
 }
