@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -12,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using ProjectTracker.Data;
 using ProjectTracker.Models;
 using ProjectTracker.Services;
+using System.Net.WebSockets;
 
 namespace ProjectTracker
 {
@@ -74,6 +72,35 @@ namespace ProjectTracker
             }
 
             app.UseStaticFiles();
+
+            //Setup WebSokcets
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+            };
+            app.UseWebSockets(webSocketOptions);
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/ws")
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                        //await Echo(context, webSocket);
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 400;
+                    }
+                }
+                else
+                {
+                    await next();
+                }
+
+            });
+            //finish websocket middleware
+
 
             app.UseIdentity();
 

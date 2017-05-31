@@ -1,3 +1,6 @@
 ProjectLobbyController - JoinProject 
 	Should accept the submission as a post and obscure all URLs from this point forward
 	by returning views and not redirectToAction
+
+	-Make injectable websockets
+	https://radu-matei.github.io/blog/aspnet-core-websockets-middleware/

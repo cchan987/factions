@@ -35,13 +35,13 @@ namespace ProjectTracker.Controllers
         {
             return View();
         }
-
+        /*
         [HttpPost]
         public IActionResult CreateProject()
         {
 
         }
-
+        */
         public IActionResult JoinProject(int ProjId)
         {
             Project toBeJoined = _ProjectData.Get(ProjId);
