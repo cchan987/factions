@@ -10,7 +10,7 @@ namespace ProjectTracker.Controllers
 
         public SocketMessagesController(NotificationsMessageHandler notificationsMessageHandler)
         {
-            _notificationsMessageHandler = notificationsMessageHandler;
+            _notificationsMessageHandler = notificationsMessageHandler;//
         }
 
         [HttpGet]
