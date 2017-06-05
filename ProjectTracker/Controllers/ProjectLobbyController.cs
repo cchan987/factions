@@ -3,9 +3,11 @@ using ProjectTracker.Services;
 using System.Security.Claims;
 using System;
 using ProjectTracker.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectTracker.Controllers
 {
+    [Authorize]
     public class ProjectLobbyController : Controller
     {
         private IProjectData _ProjectData;

@@ -1,9 +1,11 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTracker.MessageHandlers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectTracker.Controllers
 {
+    [Authorize]
     public class SocketMessagesController : Controller
     {
         private NotificationsMessageHandler _notificationsMessageHandler { get; set; }
