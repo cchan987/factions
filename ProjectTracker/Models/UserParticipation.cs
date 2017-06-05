@@ -8,5 +8,7 @@ namespace ProjectTracker.Models
         [Key]
         public String UserId { get; set; }
         public int ProjectId { get; set; }
+        public String WhoseNext { get; set; }
+        public String WhoseBefore { get; set; }
     }
 }
