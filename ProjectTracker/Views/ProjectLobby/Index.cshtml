@@ -111,8 +111,8 @@
 
         function appendItem(list, message) {
             var item = document.createElement("li");
-            item.appendChild(document.createTextNode(message));
-            list.appendChild(item);
+            item.prepend(document.createTextNode(message));
+            list.prepend(item);
         }
 
 
