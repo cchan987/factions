@@ -10,15 +10,15 @@ namespace ProjectTracker.Services
 
     public interface IProjectData
     {
-        IEnumerable<Project> GetAcceptingParticipants();
-        IEnumerable<Project> GetInProgress();
+        List<Project> GetAcceptingParticipants();
+        List<Project> GetInProgress();
         Project ParticipatingIn(String UserId); //Pass userId to this, returns the project that the user is part of
         Project Add(Project newProject);
         Project Get(int id);
         void Delete(int id);
         void Commit();
         UserParticipation GetParticipation(string Username);
-        IEnumerable<String> GetUsersInProject(int ProjId);
+        List<String> GetUsersInProject(int ProjId);
     }
 
     public class SqlProjectData : IProjectData
@@ -54,14 +54,14 @@ namespace ProjectTracker.Services
             return _context.Project.FirstOrDefault(r => r.Id == id);
         }
 
-        public IEnumerable<Project> GetAcceptingParticipants()
+        public List<Project> GetAcceptingParticipants()
         {
-            return _context.Project.Where(r => r.isActive && r.isAcceptingParticipants);
+            return _context.Project.Where(r => r.isActive && r.isAcceptingParticipants).ToList();
         }
 
-        public IEnumerable<Project> GetInProgress()
+        public List<Project> GetInProgress()
         {
-            return _context.Project.Where(r => r.isActive && !r.isAcceptingParticipants);
+            return _context.Project.Where(r => r.isActive && !r.isAcceptingParticipants).ToList();
         }
 
         public Project ParticipatingIn(String UId)
@@ -76,7 +76,7 @@ namespace ProjectTracker.Services
             return _context.UserParticipation.FirstOrDefault(r => r.UserId == Username);
         }
 
-        public IEnumerable<String> GetUsersInProject(int ProjId)
+        public List<String> GetUsersInProject(int ProjId)
         {
             List<UserParticipation> up = _context.UserParticipation.Where(r => r.ProjectId == ProjId).Select(r => new UserParticipation { UserId = r.UserId }).ToList();
             List<String> us = new List<string>();

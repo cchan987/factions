@@ -1,130 +1,68 @@
-﻿@if (User.Identity.IsAuthenticated)
-{
-    <h1>You are logged in as @User.Identity.Name</h1>
-
-    <p><a asp-action="JoinProject" asp-route-ProjId="@ViewBag.ParticipatingIn.Id">You are participating in: @ViewBag.ParticipatingIn.Name</a></p>
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-6">
-                <h2>Projects in Progress</h2>
-                @foreach (var project in ViewBag.inProgress)
-                {
-                    <p>@project.Name</p>
-                    <p>______</p>
-                }
-            </div>
-
-            <div class="col-xs-6">
-                <h2>Projects Accepting Participants</h2>
-                @foreach (var project in ViewBag.AcceptingParticipants)
-                {
-                    <p><a asp-action="JoinProject" asp-route-ProjId="@project.Id">@project.Name</a></p>
-                    //Html.ActionLink(@pr)
-                }
-            </div>
+﻿@{
+    var ParticipatingIn = Newtonsoft.Json.JsonConvert.DeserializeObject(ViewBag.ParticipatingIn);
+}
+<h1>You are logged in as @User.Identity.Name</h1>
+<body ng-app="ProjectLobby">
+    <div ng-controller="ProjectList">
+        <div id="ParticipatingIn">
+            <p><a asp-action="JoinProject" asp-route-ProjId="{{ParticipatingIn.Id}}">You are participating in: {{ParticipatingIn.Name}}</a></p>
         </div>
-        <div class="row">
-            <div class="col-xs-6">
-                <a class="btn btn-primary" asp-action="CreateProject">Create Project</a>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h2>Projects in Progress</h2>
+                    @foreach (var project in ViewBag.inProgress)
+                    {
+                        <p>@project.Name</p>
+
+                        <p>______</p>
+                    }
+                </div>
+
+                <div class="col-xs-6">
+                    <h2>Projects Accepting Participants</h2>
+                    @foreach (var project in ViewBag.AcceptingParticipants)
+                    {
+                        <p><a asp-action="JoinProject" asp-route-ProjId="@project.Id">@project.Name</a></p>
+                    }
+                </div>
+
+                <div class="col-xs-6" ng-controller="ProjectList">
+                    <h2>Projects Accepting Participants</h2>
+                    <ul ng-repeat="project in ViewBag.AcceptingParticipants">
+                        <li><p><a asp-action="JoinProject" asp-route-ProjId={{project.Id}}>{{project.Name}}</a></p></li>
+                    </ul>
+                </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <a class="btn btn-primary" asp-action="CreateProject">Create Project</a>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    ///////////////
-    <head>
-        <meta charset="utf-8" />
-        <title>Real-Time Notifications</title>
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-                crossorigin="anonymous"></script>
-
-    </head>
-
-    <body>
+    <div ng-controller="ChatArea">
         <h1>Chat Area</h1>
-        <input type=text id="textInput" placeholder="Enter your text" />
-        <button id="sendButton">Send</button>
+        <input type=text id="textInput" ng-model="textValue" placeholder="Enter your text" />
+        <button id="sendButton" ng-click="sendButton()">Send</button>
+        <ul id="messages">
+            <li ng-repeat="msg in messages">
+                {{msg.name}}
+            </li>
+        </ul>
+    </div>
 
-        <ul id="messages"></ul>
+</body >
 
-        <script language="javascript" type="text/javascript">
-        var uri = "ws://" + window.location.host + "/notifications";
-
-        function connect() {
-            socket = new WebSocket(uri);
-
-            socket.onopen = function(event) {
-                console.log("opened connection to " + uri);
-            };
-
-            socket.onclose = function(event) {
-                console.log("closed connection from " + uri);
-            };
-
-            socket.onmessage = function(event) {
-                appendItem(list, event.data);
-                console.log(event.data);
-            };
-
-            socket.onerror = function(event) {
-                console.log("error: " + event.data);
-            };
-        }
-        connect();
-
-            var list = document.getElementById("messages");
-            var button = document.getElementById("sendButton");
-            var input = document.getElementById("textInput");
-
-            button.addEventListener("click", function() {
-
-            
-            sendMessage(input.value);
-
-            input.value = "";
-            });
-
-            input.addEventListener("keypress", function (e) {
-                var key = e.which || e.keyCode;
-                if (key === 13)
-                {
-                    var input = document.getElementById("textInput");
-                    sendMessage(input.value);
-
-                    input.value = "";
-                }
-            });
-
-        function sendMessage(message) {
-            console.log("Sending: " + message);
-            if (message.length == 0)
-            {
-                return;
-            }
-            $.ajax({
-                url: "http://" + window.location.host + "/api/socketmessages/sendmessage?message=" + message,
-                method: 'GET'
-            });
-        }
-
-        function appendItem(list, message) {
-            var item = document.createElement("li");
-            item.prepend(document.createTextNode(message));
-            list.prepend(item);
-        }
+<script src="~/js/WebSocket.js" language="javascript" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script src="~/js/ProjectLobby.js" language="javascript" type="text/javascript"></script>
+<script src="~/js/ProjectListController.js" language="javascript" type="text/javascript"></script>
 
 
-        </script>
-    </body>
-    ///////////
-
-}
-else
-{
-    ViewBag.title = "Lobby";
-    <h1> You must login to view project lobby</h1>
-}
 
 

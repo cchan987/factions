@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\js\ProjectListController.js" />
+    <Content Include="wwwroot\js\ProjectLobby.js" />
+    <Content Include="wwwroot\js\WebSocket.js" />
+    <Content Include="wwwroot\lib\WebSocketStatus.js" />
+    <Content Include="wwwroot\ProjectLobby.js" />
     <Content Include="wwwroot\real-time.html" />
   </ItemGroup>
   <ItemGroup>

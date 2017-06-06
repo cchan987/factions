@@ -4,6 +4,8 @@ using System.Security.Claims;
 using System;
 using ProjectTracker.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace ProjectTracker.Controllers
 {
@@ -25,7 +27,7 @@ namespace ProjectTracker.Controllers
                 ViewBag.title = User.Identity.Name;
                 ViewBag.inProgress = _ProjectData.GetInProgress();
                 ViewBag.AcceptingParticipants = _ProjectData.GetAcceptingParticipants();
-                ViewBag.ParticipatingIn = _ProjectData.ParticipatingIn(User.Identity.Name);
+                ViewBag.ParticipatingIn = JsonConvert.SerializeObject(_ProjectData.ParticipatingIn(User.Identity.Name));
                 //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); Get userId             
                 //return View({inProgress: .... , acceptingParticipants: ....});
             }

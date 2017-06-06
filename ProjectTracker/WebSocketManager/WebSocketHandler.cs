@@ -31,9 +31,9 @@ namespace ProjectTracker.WebSocketManager
 
         public async Task SendMessageAsync(WebSocket socket, string message)
         {
+            if (socket.State != WebSocketState.Open)
+                return;
 
-
-            
             if (!(message.Length > 1))
             {
                 message = "<error no message received>";
@@ -45,9 +45,6 @@ namespace ProjectTracker.WebSocketManager
                                    cancellationToken: CancellationToken.None);
                 return;
             }
-            if (socket.State != WebSocketState.Open)
-                return;
-
 
             await socket.SendAsync(buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(message),
                                                                   offset: 0,
