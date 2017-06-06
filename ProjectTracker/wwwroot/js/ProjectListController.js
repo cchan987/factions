@@ -21,6 +21,9 @@ Lobby.app.controller('ChatArea', function ($scope) {
 Lobby.newChatMessage = function (message) {
     var scope = angular.element($("#messages")).scope();
     scope.$apply(function () {
-        scope.messages.push({ name: message });
+        scope.messages.unshift({ name: message });
+        if (scope.messages.length > 10) {
+            scope.messages.splice(-1, 1)
+        }
     });
 }
