@@ -1,37 +1,32 @@
-﻿@{
-    var ParticipatingIn = Newtonsoft.Json.JsonConvert.DeserializeObject(ViewBag.ParticipatingIn);
-}
+﻿
 <h1>You are logged in as @User.Identity.Name</h1>
 <body ng-app="ProjectLobby">
     <div ng-controller="ProjectList">
         <div id="ParticipatingIn">
-            <p><a asp-action="JoinProject" asp-route-ProjId="{{ParticipatingIn.Id}}">You are participating in: {{ParticipatingIn.Name}}</a></p>
+            <ul>
+                <li ng-repeat="project in ParticipatingIn">
+                    <p><a ng-href="ProjectLobby/JoinProject/{{project.Id}}">You are Participating in: {{project.name}}</a></p>
+                </li>
+            </ul>
         </div>
 
         <div class="container">
             <div class="row">
-                <div class="col-xs-6">
+                <div id="InProgress" class="col-xs-6">
                     <h2>Projects in Progress</h2>
-                    @foreach (var project in ViewBag.inProgress)
-                    {
-                        <p>@project.Name</p>
-
-                        <p>______</p>
-                    }
+                    <ul>
+                        <li ng-repeat="project in InProgress">
+                            <p><a ng-href="ProjectLobby/JoinProject/{{project.Id}}">{{project.name}}</a></p>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="col-xs-6">
+                <div id="AcceptingParticipants" class="col-xs-6">
                     <h2>Projects Accepting Participants</h2>
-                    @foreach (var project in ViewBag.AcceptingParticipants)
-                    {
-                        <p><a asp-action="JoinProject" asp-route-ProjId="@project.Id">@project.Name</a></p>
-                    }
-                </div>
-
-                <div class="col-xs-6" ng-controller="ProjectList">
-                    <h2>Projects Accepting Participants</h2>
-                    <ul ng-repeat="project in ViewBag.AcceptingParticipants">
-                        <li><p><a asp-action="JoinProject" asp-route-ProjId={{project.Id}}>{{project.Name}}</a></p></li>
+                    <ul>
+                        <li ng-repeat="project in AcceptingParticipants">
+                            <p><a ng-href="ProjectLobby/JoinProject/{{project.Id}}">{{project.name}}</a></p>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -56,7 +51,7 @@
         </ul>
     </div>
 
-</body >
+</body>
 
 <script src="~/js/WebSocket.js" language="javascript" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>

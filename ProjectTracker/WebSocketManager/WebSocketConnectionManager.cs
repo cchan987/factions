@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
@@ -30,11 +31,15 @@ namespace ProjectTracker.WebSocketManager
 
         public void AddSocket(WebSocket socket)
         {
-            _sockets.TryAdd(CreateConnectionId(), socket);
+            string id = CreateConnectionId();
+            
+            Debug.WriteLine("Adding Websocket: " + id);
+            _sockets.TryAdd(id, socket);
         }
 
         public async Task RemoveSocket(string id)
         {
+            Debug.WriteLine("Removing Websocket: " + id);
             WebSocket socket;
             _sockets.TryRemove(id, out socket);
 

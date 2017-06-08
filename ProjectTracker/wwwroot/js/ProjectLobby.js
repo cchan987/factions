@@ -8,16 +8,18 @@ input.addEventListener("keypress", function (e) {
     if (key === 13) {
         var input = document.getElementById("textInput");
         sendMessage(input.value);
-
         input.value = "";
     }
 });
 
 function sendMessage(message) {
-    console.log("Sending: " + message);
-    if (message.length == 0) {
+    
+    if (message === undefined || message.length === 0) {
+        console.log("Didn't send: " + message);
         return;
     }
+
+    console.log("Sending: " + message);
     $.ajax({
         url: "https://" + window.location.host + "/api/socketmessages/sendmessage?message=" + message,
         method: 'GET'

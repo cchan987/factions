@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace ProjectTracker.Models
 {
@@ -13,5 +14,11 @@ namespace ProjectTracker.Models
         public Boolean isActive { get; set; }
         public Boolean isAcceptingParticipants { get; set; }
         public String WhoseTurn { get; set; }
+
+        public string ToJSON(string status = "", string type = "ListUpdate")
+        {
+            var json = JsonConvert.SerializeObject(new { Type = type, Data = new { Status = status, Project = this } });
+            return json;
+        }
     }
 }

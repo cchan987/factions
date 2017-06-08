@@ -7,6 +7,10 @@ Ws.connect = function () {
 
     socket.onopen = function (event) {
         console.log("opened connection to " + Ws.uri);
+        $.ajax({
+            url: "https://" + window.location.host + "/api/ProjectLobby/InitialMessageAsync",
+            method: 'GET'
+        });
     };
 
     socket.onclose = function (event) {
@@ -14,8 +18,23 @@ Ws.connect = function () {
     };
 
     socket.onmessage = function (event) {
-        Lobby.newChatMessage(event.data);
-        console.log(event.data);
+        try {
+            var message = JSON.parse(event.data);
+            if (message.Type == "ListUpdate") {
+                console.log("confirmed as listupdate")
+                Lobby.projectListMessage(message.Data)
+            }
+            else if (message.Type == "ChatMessage") {
+                Lobby.newChatMessage(message.Data)
+            }
+            console.log("Parsing", message)
+        }
+        catch (err) {
+            console.log("couldn't parse", event.data)
+
+        }
+        //Lobby.newChatMessage(event.data);
+        //console.log(event.data);
     };
 
     socket.onerror = function (event) {

@@ -77,13 +77,15 @@ namespace ProjectTracker
 
             app.UseStaticFiles();
 
+            app.UseIdentity();
+
             //Setup WebSokcets
             app.UseWebSockets();
             app.MapWebSocketManager("/notifications", serviceProvider.GetService<NotificationsMessageHandler>());
             //finish websocket middleware
 
 
-            app.UseIdentity();
+            
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 

@@ -5,6 +5,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectTracker.WebSocketManager
 {
@@ -20,7 +21,6 @@ namespace ProjectTracker.WebSocketManager
         public virtual async Task OnConnected(WebSocket socket)
         {
             //throw new Exception("ere");
-
             _WebSocketConnectionManager.AddSocket(socket);
         }
 

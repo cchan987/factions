@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTracker.MessageHandlers;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace ProjectTracker.Controllers
 {
@@ -19,7 +20,9 @@ namespace ProjectTracker.Controllers
         public async Task SendMessage([FromQueryAttribute]string message)
         {
             string name = User.Identity.Name;
-            await _notificationsMessageHandler.SendMessageToAllAsync(name + " said: " + message);
+            message = name + " said: " + message;
+            string json = JsonConvert.SerializeObject(new {Type = "ChatMessage", Data = message});
+            await _notificationsMessageHandler.SendMessageToAllAsync(json);
         }
     }
 }
